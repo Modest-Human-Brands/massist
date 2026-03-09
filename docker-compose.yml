@@ -1,0 +1,96 @@
+services:
+  # ─────────────────────────────────────────────────────────
+  # TEXT — Qwen3.5-4B FP8/Q8 (halves VRAM: ~4GB vs ~8GB BF16)
+  # profile: text
+  # Env vars consumed by CLI:
+  #   MOTIA_VLLM_TEXT_MODEL=Qwen/Qwen3.5-4B
+  #   MOTIA_VLLM_TEXT_URL=http://localhost:4700
+  # ─────────────────────────────────────────────────────────
+  vllm-text:
+    profiles: [ text ]
+    image: vllm/vllm-openai:latest #v0.17.0
+    runtime: nvidia
+    env_file:
+      - .env
+    volumes:
+      - D:\Models\huggingface:/root/.cache/huggingface/hub
+      # - D:\Models\gguf\qwen3.5-9b:/model
+    ports:
+      - 4700:8000
+    networks:
+      - internal
+    ipc: host
+    entrypoint: vllm serve
+    command: >
+      Qwen/Qwen3.5-4B --host 0.0.0.0 --port 8000 --tensor-parallel-size 1 --max-model-len 32768 --enforce-eager --reasoning-parser qwen3 --dtype float16
+    # unsloth/Qwen3.5-9B-GGUF:Q8_0 --host 0.0.0.0 --port 8000 --tensor-parallel-size 1 --max-model-len 32768 --enforce-eager --reasoning-parser qwen3 --kv-cache-dtype fp8 --hf-config-path Qwen/Qwen3-8B --tokenizer Qwen/Qwen3-8B --dtype float16
+    # /model/qwen3.5-9B-Q8_0.gguf
+    #   --host 0.0.0.0
+    #   --port 8000
+    #   --tensor-parallel-size 1
+    #   --max-model-len 32768
+    #   --enforce-eager
+    #   --reasoning-parser qwen3
+    #   --kv-cache-dtype fp8
+    #   --hf-config-path /model
+    #   --tokenizer /model
+    #   --dtype float16
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:8000/health || exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+
+  # ─────────────────────────────────────────────────────────
+  # IMAGE — Z-Image-Turbo via vllm-omni
+  # profile: image
+  # Env vars consumed by CLI:
+  #   MOTIA_VLLM_IMAGE_MODEL=Tongyi-MAI/Z-Image-Turbo
+  #   MOTIA_VLLM_IMAGE_URL=http://localhost:4701
+  #
+  # NOTE: vllm-text and vllm-image cannot run simultaneously
+  # on a single 16GB GPU. Run with separate profiles:
+  #   docker compose --profile text up    ← for analysis
+  #   docker compose --profile image up   ← for generation
+  # ─────────────────────────────────────────────────────────
+  vllm-image:
+    profiles: [ image ]
+    image: vllm/vllm-omni:v0.16.0
+    runtime: nvidia
+    env_file:
+      - .env
+    volumes:
+      - D:\Models\huggingface:/root/.cache/huggingface/hub
+    ports:
+      - 4701:8001
+    networks:
+      - internal
+    ipc: host
+    entrypoint: vllm serve
+    command: >
+      Tongyi-MAI/Z-Image-Turbo --omni --host 0.0.0.0 --port 8001
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:8001/health || exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 180s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+
+networks:
+  internal:
+    driver: bridge

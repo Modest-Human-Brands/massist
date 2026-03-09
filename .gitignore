@@ -1,0 +1,24 @@
+# Build files
+dist
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Test
+coverage
+
+# Env files
+.env*
+!.env.example
+
+artifact
+temp
