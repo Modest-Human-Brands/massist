@@ -1,3 +1,31 @@
+<p align="center">
+  <img src="./public/logo.png" alt="Logo" width="65" />
+</p>
+
+# Massist
+
+<p align="center">
+  <a href="https://shirsendu-bairagi.betteruptime.com">
+    <img src="https://uptime.betterstack.com/status-badges/v3/monitor/10aqw.svg" alt="Uptime Status">
+  </a>
+</p>
+
+![Landing](public/previews/landing.webp)
+
+> An AI-powered assistant service integrating tools to automate workflows, answer queries, and orchestrate actions across the platform.
+
+# Quickstart
+
+A quickstart example project that shows you how to scaffold a cross-language project, compose Python and TypeScript workers, and incrementally add functionality to a live system with zero downtime.
+
+| Worker          | Language   | Function                | Does                                     |
+| --------------- | ---------- | ----------------------- | ---------------------------------------- |
+| `math-worker`   | Python     | `math::add`             | Returns `{ c: a + b }`                   |
+| `caller-worker` | TypeScript | `math::add_two_numbers` | Calls `math::add` and returns the result |
+
+Continue with the tutorial at: https://iii.dev/docs/quickstart
+
+
 ### Local Multimodal AI Stack (RTX 5060 Ti 16GB)
 
 Text, Image, Audio, Video Modals
@@ -94,4 +122,10 @@ docker compose --profile text down && docker compose --profile image up -d
 
 ```
 
-Would you like me to help you write a Python or Bash script to automate the **automatic context preservation** when swapping between the LLM and FLUX?
+## License
+
+Published under the [MIT](https://github.com/Modest-Human-Brands/massist/blob/main/LICENSE) license.
+<br><br>
+<a href="https://github.com/Modest-Human-Brands/massist/graphs/contributors">
+<img src="https://contrib.rocks/image?repo=Modest-Human-Brands/massist" />
+</a>
