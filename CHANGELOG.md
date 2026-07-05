@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.0.3
+
+### 🚀 Enhancements
+
+- Implement MetaAgent for dynamic multi-agent workflows ([8125a74](https://github.com/shba007/nitrotemplate/commit/8125a74))
+
+### 💅 Refactors
+
+- Code migrated to motia python ([33fe34c](https://github.com/shba007/nitrotemplate/commit/33fe34c))
+- Migrated from motia to nitro ([9193a5b](https://github.com/shba007/nitrotemplate/commit/9193a5b))
+
+### 🏡 Chore
+
+- Add initial .gitignore, README.md, and docker-compose.yml files ([4c08e6c](https://github.com/shba007/nitrotemplate/commit/4c08e6c))
+
+### ❤️ Contributors
+
+- Shirsendu Bairagi ([@shba007](https://github.com/shba007))
+
 ## v0.0.2
 
 ### 🚀 Enhancements
