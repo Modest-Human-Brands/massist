@@ -1,13 +1,17 @@
-# Nitro dev/build outputs
-.output
+# Nuxt dev/build outputs
+.cache
 .data
 .nuxt
 .nitro
-.cache
+.output
 dist
 
 # Node dependencies
 node_modules
+
+# Package Manager
+package.json
+bun.lock
 
 # Logs
 logs
@@ -19,9 +23,5 @@ logs
 .idea
 
 # Env files
-.env
-.env.*
+.env*
 !.env.example
-!.env.native
-
-old

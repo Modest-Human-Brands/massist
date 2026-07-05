@@ -25,7 +25,6 @@ A quickstart example project that shows you how to scaffold a cross-language pro
 
 Continue with the tutorial at: https://iii.dev/docs/quickstart
 
-
 ### Local Multimodal AI Stack (RTX 5060 Ti 16GB)
 
 Text, Image, Audio, Video Modals

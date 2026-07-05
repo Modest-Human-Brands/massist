@@ -1,4 +1,4 @@
-name: Motia CI
+name: Nitro CI
 
 permissions:
   contents: write
@@ -61,7 +61,7 @@ jobs:
           bunx changelogen@latest --bump
 
       - name: 🔀 Create or Update Pull Request
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           commit-message: 'ci(release): update version'
           title: 'ci(release): update version'
