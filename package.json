@@ -1,6 +1,6 @@
 {
   "name": "massist",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An AI-powered assistant service integrating tools to automate workflows, answer queries, and orchestrate actions across the platform.",
   "author": "Shirsendu Bairagi <shirsendu2001@gmail.com>",
   "license": "MIT",

@@ -1,5 +1,31 @@
 # Changelog
 
+## v0.1.1
+
+### 🚀 Enhancements
+
+- Implement MetaAgent for dynamic multi-agent workflows ([8125a74](https://github.com/Modest-Human-Brands/massist/commit/8125a74))
+
+### 💅 Refactors
+
+- Code migrated to motia python ([33fe34c](https://github.com/Modest-Human-Brands/massist/commit/33fe34c))
+- Migrated from motia to nitro ([9193a5b](https://github.com/Modest-Human-Brands/massist/commit/9193a5b))
+- Rename project from nitrotemplate to massist and update dependencies ([264dc4c](https://github.com/Modest-Human-Brands/massist/commit/264dc4c))
+
+### 🏡 Chore
+
+- Add initial .gitignore, README.md, and docker-compose.yml files ([4c08e6c](https://github.com/Modest-Human-Brands/massist/commit/4c08e6c))
+
+### 🤖 CI
+
+- **release:** Update version ([88d5050](https://github.com/Modest-Human-Brands/massist/commit/88d5050))
+- **release:** Update version ([00b9fbc](https://github.com/Modest-Human-Brands/massist/commit/00b9fbc))
+
+### ❤️ Contributors
+
+- Shirsendu Bairagi ([@shba007](https://github.com/shba007))
+- Shba007 ([@shba007](https://github.com/shba007))
+
 ## v0.1.0
 
 ### 🚀 Enhancements
