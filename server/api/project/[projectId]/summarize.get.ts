@@ -14,7 +14,6 @@ import { $fetch } from 'ofetch'
 //   documents: z.array(z.object({ id: z.string(), name: z.string(), status: z.string(), summary: z.string() }))
 // });
 
-// HARDENED PROMPT: explicit next-action + explicit stop condition
 const RESEARCHER_PROMPT = (id: string) => `You are a Data Retrieval Agent for project ${id}. Your process is:
 1. Call 'fetchProjectDocumentList' to get every document in the project.
 2. Call 'fetchDocumentDetails' once for EVERY document id returned in step 1. Do not skip any, and do not stop until every id has been fetched.
@@ -28,17 +27,11 @@ export default defineEventHandler(async (event) => {
 
   if (!projectId) throw new HTTPError({ statusCode: 400, statusMessage: 'projectId required' })
 
-  // PASS 1: Agentic Retrieval
   const { text: researchNotes, steps } = await generateText({
     model: LLM_MODEL,
     system: RESEARCHER_PROMPT(projectId),
     prompt: `Research all documents for project: ${projectId}`,
-    // generateText only runs ONE step by default (one round of tool calls, then it returns
-    // whatever text/tool-results it got). stopWhen is what turns it into an actual loop:
-    // after each step that ends in tool results, the SDK feeds those results back to the
-    // model and asks it to continue, repeating until the model answers with plain text
-    // (no further tool calls) or this cap is hit.
-    stopWhen: stepCountIs(30), // 1 list call + up to ~28 detail calls + 1 final summary step
+    stopWhen: stepCountIs(30),
     tools: {
       fetchProjectDocumentList: tool({
         description: 'Get all document IDs for the project.',
@@ -55,8 +48,6 @@ export default defineEventHandler(async (event) => {
       fetchDocumentDetails: tool({
         description: 'Fetch details for a specific document ID. MUST be called for every ID from the list.',
         inputSchema: z.object({ documentId: z.string() }),
-        // FIX: schema field is `documentId`, not `id` — the old `{ id: documentId }`
-        // destructure pulled undefined and every call hit /api/document/undefined
         execute: async ({ documentId }) => {
           const response = await $fetch(`/api/document/${documentId}`, { baseURL: config.public.docUrl })
           console.log({ docInfo: response })
@@ -75,11 +66,9 @@ export default defineEventHandler(async (event) => {
 
   console.log(`[Phase 1] Completed in ${steps.length} steps`)
 
-  // PASS 2: Synthesis
   console.log(`[Phase 2] Structuring data. Research Notes length: ${researchNotes.length}`)
   const { text } = await generateText({
     model: LLM_MODEL,
-    // schema: ProjectSummarySchema,
     system: 'Convert the provided research report.',
     prompt: `Report:\n${researchNotes}`,
   })
